@@ -1,0 +1,7 @@
+# build artifacts
+philo/philo
+philo/*.o
+*.o
+
+# evaluation material (keep local, do not publish)
+ng_4_philosophers.pdf
