@@ -19,7 +19,8 @@ static int	init_forks(t_table *t)
 	i = 0;
 	while (i < t->n_philo)
 	{
-		if (pthread_mutex_init(&t->forks[i], NULL) != 0)
+		t->forks[i] = 0;
+		if (pthread_mutex_init(&t->forks_mutexes[i], NULL) != 0)
 			return (0);
 		i++;
 	}
@@ -36,8 +37,8 @@ static int	init_philos(t_table *t)
 		t->philos[i].id = i + 1;
 		t->philos[i].time_last_ate = t->start_ms;
 		t->philos[i].n_meals_eaten = 0;
-		t->philos[i].r_fork = &t->forks[i];
-		t->philos[i].l_fork = &t->forks[(i + 1) % t->n_philo];
+		t->philos[i].right = i;
+		t->philos[i].left = (i + 1) % t->n_philo;
 		t->philos[i].table = t;
 		if (pthread_mutex_init(&t->philos[i].meal_lock, NULL) != 0)
 			return (0);
@@ -48,11 +49,13 @@ static int	init_philos(t_table *t)
 
 int	init_table(t_table *t)
 {
-	t->forks = malloc(sizeof(pthread_mutex_t) * t->n_philo);
+	t->forks = malloc(sizeof(int) * t->n_philo);
+	t->forks_mutexes = malloc(sizeof(pthread_mutex_t) * t->n_philo);
 	t->philos = malloc(sizeof(t_philo) * t->n_philo);
-	if (!t->forks || !t->philos)
+	if (!t->forks || !t->forks_mutexes || !t->philos)
 	{
 		free(t->forks);
+		free(t->forks_mutexes);
 		free(t->philos);
 		return (0);
 	}
@@ -73,11 +76,12 @@ void	cleanup_table(t_table *t)
 	while (i < t->n_philo)
 	{
 		pthread_mutex_destroy(&t->philos[i].meal_lock);
-		pthread_mutex_destroy(&t->forks[i]);
+		pthread_mutex_destroy(&t->forks_mutexes[i]);
 		i++;
 	}
 	pthread_mutex_destroy(&t->print_lock);
 	pthread_mutex_destroy(&t->stop_lock);
 	free(t->philos);
 	free(t->forks);
+	free(t->forks_mutexes);
 }

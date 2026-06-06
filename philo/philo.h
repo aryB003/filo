@@ -6,7 +6,7 @@
 /*   By: aryan <aryan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 13:53:19 by aryan             #+#    #+#             */
-/*   Updated: 2026/06/05 16:29:39 by aryan            ###   ########.fr       */
+/*   Updated: 2026/06/06 00:02:14 by aryan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ struct s_table
 	size_t			start_ms;
 	bool			stop;
 	t_philo			*philos;
-	pthread_mutex_t	*forks;
+	int				*forks;
+	pthread_mutex_t	*forks_mutexes;
 	pthread_mutex_t	stop_lock;
 	pthread_mutex_t	print_lock;
 };
@@ -43,9 +44,9 @@ struct s_philo
 	size_t			id;
 	size_t			time_last_ate;
 	size_t			n_meals_eaten;
+	size_t			left;
+	size_t			right;
 	pthread_t		thread;
-	pthread_mutex_t	*r_fork;
-	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	meal_lock;
 	t_table			*table;
 };

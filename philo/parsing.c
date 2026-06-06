@@ -78,7 +78,7 @@ int	parse_args(int ac, char **av, t_table *t)
 	t->must_eat = (size_t)-1;
 	if (ac == 6)
 	{
-		if (!ft_atoi_safe(av[5], &value))
+		if (!ft_atoi_safe(av[5], &value) || value == 0)
 			return (0);
 		t->must_eat = value;
 	}
