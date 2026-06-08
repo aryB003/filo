@@ -5,3 +5,7 @@ philo/*.o
 
 # evaluation material (keep local, do not publish)
 ng_4_philosophers.pdf
+
+# local session context (keep local, do not publish)
+CLAUDE.md
+
