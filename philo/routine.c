@@ -6,19 +6,11 @@
 /*   By: aryan <aryan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 22:42:00 by aryan             #+#    #+#             */
-/*   Updated: 2026/06/05 23:19:11 by aryan            ###   ########.fr       */
+/*   Updated: 2026/06/08 15:02:35 by aryan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-/*
-** Forks are integers (0 = free, 1 = taken), each guarded by its own mutex.
-** grab_one locks a fork's mutex, checks its integer; if free it claims it
-** (sets it to 1) and returns. If taken, it unlocks and backs off 100us, then
-** retries. Forks are taken one at a time in an asymmetric order (even ids
-** left-first, odd ids right-first) to avoid a circular wait.
-*/
 
 static int	grab_one(t_philo *p, size_t fork_id)
 {
